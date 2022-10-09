@@ -1,0 +1,10 @@
+py manage.py graph_models -a -o myapp_models.png
+
+E:\Studia\sem7\inżynierka\repozytorium> myenv/Scripts/Activate
+
+py manage.py makemigrations 
+py manage.py migrate
+
+py manage.py runserver
+
+admin admin
