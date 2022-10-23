@@ -12,10 +12,11 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'price', 'description']
+    list_display = ['name', 'price', 'description', 'slug']
     list_editable = ['price', 'description']
-
+    
+    
 @admin.register(Media)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['image', 'product']
+    list_display = ['product']
     

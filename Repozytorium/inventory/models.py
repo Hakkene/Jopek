@@ -22,15 +22,24 @@ class Product(models.Model):
     description =models.TextField()
     stock = models.IntegerField()
     is_active = models.BooleanField(default=True) 
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+   # category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    category = models.ManyToManyField(Category)
+    slug = models.SlugField(max_length=20)
 
     def __str__(self):
      return self.name
 
 class Media(models.Model):
+
+    product_inventory = models.ForeignKey(
+        Product,
+        on_delete=models.PROTECT,
+        related_name="media_product",
+    )
+
     image = models.ImageField(upload_to='images/')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-
+"""
     def __str__(self):
-     return self.image
-
+     return self.product
+"""

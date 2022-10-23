@@ -8,3 +8,5 @@ py manage.py migrate
 py manage.py runserver
 
 admin admin
+
+manage.py reset_db
