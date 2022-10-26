@@ -18,17 +18,21 @@ from django.urls import path, include
 from django.conf import settings 
 from django.conf.urls.static import static
 from rest_framework import routers
+from rest_framework.authtoken.views import obtain_auth_token
 from drf import views
 
 router = routers.DefaultRouter()
 router.register(
-    r'api', views.AllProductsViewSet, basename="all products"
+    r'api', views.AllProductsViewSet, basename="all products")
+router.register(
+    r'users', views.UserViewSet, basename="all users")
 
-)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include(router.urls))
+    path('auth/', obtain_auth_token),
+    path("", include(router.urls)),
 ]
 
 if settings.DEBUG:

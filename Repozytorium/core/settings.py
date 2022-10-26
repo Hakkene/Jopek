@@ -41,11 +41,14 @@ INSTALLED_APPS = [
     'django_extensions',
     'inventory',
     "rest_framework",
+    "rest_framework.authtoken",
     "drf",
+    'corsheaders',
     
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -53,6 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+   
+    
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -145,6 +150,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 100
+    #'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    #'PAGE_SIZE': 100,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+       'rest_framework.authentication.TokenAuthentication',
+   ),     
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+   
+]

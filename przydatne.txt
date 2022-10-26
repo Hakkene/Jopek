@@ -10,3 +10,12 @@ py manage.py runserver
 admin admin
 
 manage.py reset_db
+
+
+
+
+npm start
+
+functional component rfce
+
+classcomponent rce
