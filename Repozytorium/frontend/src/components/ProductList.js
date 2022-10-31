@@ -1,19 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { Link } from "react-router-dom";
 
-function ProductList() {
+function ProductList(props) {
 
-    const [products, setProducts] = useState([])
-
-    useEffect(() => {
-        fetch('http://localhost:8000/api/',
-        //fetch('https://jsonplaceholder.typicode.com/posts',
-        {  'method':'GET' } )
-        .then(resp=>resp.json())
-        .then(resp =>setProducts(resp))
-        .catch(error=>console.log(error))
-
-
-    }, [])
 
 /*
   return (
@@ -33,19 +22,85 @@ function ProductList() {
 */
 return (
     <div>
-        {
-            products.map(j =>
-             <div>
-                 {j.name}
+   
+
+<div id="app">
+     
+    <section class="main-content columns is-fullheight">
+      
+      <aside class="column is-2 is-fullheight section ">
+        <p class="menu-label">Navigation</p>
+        <ul class="menu-list">
+          <li>
+            <a href="#" class="">
+              <span class="icon"><i class="fa fa-home"></i></span> Home
+            </a>
+          </li>
+          <li>
+            <a href="#" class="is-active">
+              <span class="icon"><i class="fa fa-table"></i></span> Links
+            </a>
+    
+            <ul>
+              <li>
+                <a href="#">
+                  <span class="icon is-small"><i class="fa fa-link"></i></span> Link1
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <span class="icon is-small"><i class="fa fa-link"></i></span> Link2
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#" class="">
+              <span class="icon"><i class="fa fa-info"></i></span> About
+            </a>
+          </li>
+        </ul>
+      </aside>
+    
+      <div class="container column is-10">
+        <div class="section">
+        
+        <div class="columns is-multiline is-hovered">
+            {
+            props.propProducts.map(j =>
+             <div key={j.id} class="column is-one-third " >
+                <div class="box">
+                <Link to={"/"+j.slug}>
+                 <p class="title is-primary">{j.name}</p>
+                 <figure class="image is-128x128" > 
+                    <img src={j.thumbnail} alt='#' />                                              
+                 </figure>
+                 <Link to={"/"+j.slug }>link test</Link>
+                
+
                  {j.category.map(b =>
-                     <div>
-                         {b.name}
-                         
+                     <div key={b.name}>
+                        <p class="subtitle">{b.name}</p>                                                 
                      </div>
+                     
                  )}
-             </div>
+              
+              </Link>
+              </div>
+              </div>
             )
         }
+ </div>
+          
+        </div>
+      </div>
+      
+    </section>
+    
+            
+      </div>
+        
+   
     </div>
 )
     }

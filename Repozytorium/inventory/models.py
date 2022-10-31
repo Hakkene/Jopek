@@ -25,7 +25,8 @@ class Product(models.Model):
    # category = models.ForeignKey(Category, on_delete=models.PROTECT)
     category = models.ManyToManyField(Category)
     slug = models.SlugField(max_length=20)
-
+    thumbnail =models.ImageField(upload_to='images/', default=123)
+    
     def __str__(self):
      return self.name
 

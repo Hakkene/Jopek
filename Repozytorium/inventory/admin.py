@@ -18,5 +18,5 @@ class CategoryAdmin(admin.ModelAdmin):
     
 @admin.register(Media)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['product']
+    list_display = ['id', 'product']
     

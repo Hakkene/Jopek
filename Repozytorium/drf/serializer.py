@@ -44,7 +44,8 @@ class AllProducts(serializers.ModelSerializer):
             "stock",
             "is_active",
             "category",
-            "image"
+            "thumbnail",
+            "image",
             
         )
         
