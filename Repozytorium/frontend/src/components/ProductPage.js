@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import {useParams}from "react-router-dom"
+import {useParams, useLocation}from "react-router-dom"
 
-function ProductPage(props) {
-    
-    const { slug } =useParams();
-    
-    const found = props.propProducts.find(obj => {
-        return obj.slug === slug
-      });
-      console.log(found.price)
 
-    
+function ProductPage() {
+
+    const location = useLocation()
+    const fromPlist = location.state?.data
+   console.log(location);
+    console.log(fromPlist)
+
+
+
 
 
 
@@ -18,12 +18,12 @@ function ProductPage(props) {
   return (
 
     <section class="section is-medium">
-        
+        <div>Login {fromPlist.name}</div>
                    
         <div class="columns is-multiline box">
             <div class="column is-half">
             
-            {found.image.map(b =>
+            {fromPlist.image.map(b =>
                      <div key={b.image}>
                         <figure class="image is-rectangle">
                         <img src={b.image} alt="#"/>
@@ -37,14 +37,14 @@ function ProductPage(props) {
             
             </div>
             <div class="column box"> 
-                <h1 class="title">{found.name}</h1>
-                {found.category.map(b =>
-                     <div key={b.name}>
-                        <p class="has-text-warning-dark">{b.name}</p>                                         
+                <h1 class="title">{fromPlist.name}</h1>
+                {fromPlist.category.map(b =>
+                     <div key={b.name}>                        
+                        <p class="has-text-warning-dark">{b.name}</p>                                                            
                      </div>  
                      
                  )}
-                <h2 class="subtitle">{found.description}</h2>
+                <h2 class="subtitle">{fromPlist.description}</h2>
             </div>
         </div>
         

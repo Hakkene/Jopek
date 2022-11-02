@@ -1,9 +1,9 @@
-import React from 'react';
+
 import { Link } from "react-router-dom";
 
 function ProductList(props) {
 
-
+   
 /*
   return (
     <div className="Product-list">ProductList
@@ -20,6 +20,8 @@ function ProductList(props) {
   )
 }
 */
+
+
 return (
     <div>
    
@@ -70,13 +72,13 @@ return (
             props.propProducts.map(j =>
              <div key={j.id} class="column is-one-third " >
                 <div class="box">
-                <Link to={"/"+j.slug}>
+                <Link to={"/"+j.slug} state={{ data: j }}>
                  <p class="title is-primary">{j.name}</p>
                  <figure class="image is-128x128" > 
                     <img src={j.thumbnail} alt='#' />                                              
                  </figure>
-                 <Link to={"/"+j.slug }>link test</Link>
-                
+                {// <Link to={"/"+j.slug }>link test</Link>
+                }                 
 
                  {j.category.map(b =>
                      <div key={b.name}>

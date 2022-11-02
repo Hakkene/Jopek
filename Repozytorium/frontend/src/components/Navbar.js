@@ -1,12 +1,25 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 
-import React from 'react';
+
+function Navbar() {
+
+const [token, setToken] = useState(localStorage.getItem("userToken") ?? null)
+
+const logoutHandler = () => {
+  setToken("")
+  localStorage.clear()
+}
 
 
-function Amogus() {
+
+
+
+
     return (
         <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="https://bulma.io">
+    <a class="navbar-item" href="/">
       <img src="https://i1.sndcdn.com/artworks-Uii8SMJvNPxy8ePA-romBoQ-t500x500.jpg" width="112" height="28" alt="#" />
     </a>
 
@@ -53,12 +66,24 @@ function Amogus() {
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
-          <a class="button is-info">
-            <strong>Sign up</strong>
-          </a>
-          <a class="button is-light">
+          
+          {token ? 
+          <button class="button is-danger"onClick={logoutHandler}  >
+            Log out
+          </button>
+          :<div>
+            <a href={"/register"} class="button is-primary"  >
+            <strong>Register</strong>
+            </a>
+          <a href={"/login"} class="button is-light"  >
             Log in
           </a>
+
+          </div>
+          }
+
+
+            
         </div>
       </div>
     </div>
@@ -67,6 +92,10 @@ function Amogus() {
 
     );
 
+    //<a class="button is-danger" href="/login">
+    //logout
+    //</a>
+//<Link to={"/"+j.slug} state={{ data: j }}>
 }
 
-export default Amogus
+export default Navbar
