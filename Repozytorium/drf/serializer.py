@@ -1,7 +1,7 @@
 #from msilib.schema import Media
 from unicodedata import category
 from rest_framework import serializers
-from inventory.models import Product, Category, Media
+from inventory.models import Product, Category, Media, Comment
 from django.contrib.auth.models import User
 from rest_framework.authtoken.views import Token
 
@@ -29,9 +29,10 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ["name"]
 
+
 class AllProducts(serializers.ModelSerializer):
     category = CategorySerializer(many=True)
-    image = MediaSerializer(source="media_product", many=True)
+    image = MediaSerializer(source="media_product", many=True)   
     class Meta:
         model = Product
         fields = ( 
@@ -46,7 +47,10 @@ class AllProducts(serializers.ModelSerializer):
             "category",
             "thumbnail",
             "image",
-            
         )
         
-
+class CommentSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Comment
+        fields = ["product","name","body","created_on"]

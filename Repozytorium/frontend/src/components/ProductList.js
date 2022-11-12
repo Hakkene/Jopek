@@ -70,26 +70,35 @@ return (
         <div class="columns is-multiline is-hovered">
             {
             props.propProducts.map(j =>
-             <div key={j.id} class="column is-one-third " >
-                <div class="box">
+             <div key={j.id} class="column is-one-third ">
+                      <div class="card">
+                    <div class="card-image has-text-centered">
                 <Link to={"/"+j.slug} state={{ data: j }}>
-                 <p class="title is-primary">{j.name}</p>
-                 <figure class="image is-128x128" > 
-                    <img src={j.thumbnail} alt='#' />                                              
-                 </figure>
-                {// <Link to={"/"+j.slug }>link test</Link>
-                }                 
-
-                 {j.category.map(b =>
-                     <div key={b.name}>
-                        <p class="subtitle">{b.name}</p>                                                 
-                     </div>
-                     
-                 )}
-              
+                
+                 
+                
+                 <div class="card-content">
+                 <p class="title is-primary has-text-centered">{j.name}</p>
+   
+      <div class="card-image">
+        <figure class="image is-square">
+        <img src={j.thumbnail} alt='#' />  
+        </figure>
+        <div class="content ">
+        <p class="title">cena {j.price} zł</p>
+        
+      </div>
+      </div>
+      
+   
+    
+    </div>
+                 
               </Link>
               </div>
               </div>
+            </div>
+             
             )
         }
  </div>

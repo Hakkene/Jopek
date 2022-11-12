@@ -40,7 +40,16 @@ class Media(models.Model):
 
     image = models.ImageField(upload_to='images/')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-"""
+
+
+class Comment(models.Model):
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    name = models.CharField(max_length=80)
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['created_on']
+
     def __str__(self):
-     return self.product
-"""
+        return 'Comment {} by {}'.format(self.body, self.name)

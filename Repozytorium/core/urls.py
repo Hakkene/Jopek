@@ -26,6 +26,8 @@ router.register(
     r'api', views.AllProductsViewSet, basename="all products")
 router.register(
     r'users', views.UserViewSet, basename="all users")
+router.register(
+    r'comments', views.AllCommentsViewSet, basename="all comments")
 
 
 

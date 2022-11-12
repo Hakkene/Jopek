@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
+import Icon from '@mdi/react'
+import { mdiCart } from '@mdi/js';
 
-
-function Navbar() {
+function Navbar(props) {
 
 const [token, setToken] = useState(localStorage.getItem("userToken") ?? null)
-
+const {cartItems} = props
 const logoutHandler = () => {
   setToken("")
   localStorage.clear()
@@ -14,7 +15,7 @@ const logoutHandler = () => {
 
 
 
-
+    
 
     return (
         <nav class="navbar" role="navigation" aria-label="main navigation">
@@ -32,8 +33,8 @@ const logoutHandler = () => {
 
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
-      <a class="navbar-item">
-        Home
+      <a href="/cart" alt="test" class="navbar-item">
+        Cart
       </a>
 
       <a class="navbar-item">
@@ -65,6 +66,13 @@ const logoutHandler = () => {
 
     <div class="navbar-end">
       <div class="navbar-item">
+
+
+      <Link to="/cart">
+      <div class="mr-3">
+      <Icon path ={mdiCart}  title="User Profile" size={1.7}/>       
+       </div> </Link>
+
         <div class="buttons">
           
           {token ? 

@@ -3,20 +3,24 @@ from django.contrib import admin
 # Register your models here.
 
 
-from .models import Category, Product, Media
+from .models import Category, Product, Media, Comment
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'description']
-    list_editable = ['description']
+    list_display = ['name']
+    
 
 @admin.register(Product)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'price', 'description', 'slug']
-    list_editable = ['price', 'description']
+    list_display = ['name', 'price',  'slug']
+    
     
     
 @admin.register(Media)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['id', 'product']
+    
+@admin.register(Comment)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['id', 'product']
     
