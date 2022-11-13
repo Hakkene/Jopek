@@ -44,9 +44,9 @@ class Media(models.Model):
 
 class Comment(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
-    name = models.CharField(max_length=80)
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
+    owner = models.ForeignKey('auth.User', related_name='comments', on_delete=models.CASCADE)
     
     class Meta:
         ordering = ['created_on']

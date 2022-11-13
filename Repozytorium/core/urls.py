@@ -27,7 +27,7 @@ router.register(
 router.register(
     r'users', views.UserViewSet, basename="all users")
 router.register(
-    r'comments', views.AllCommentsViewSet, basename="all comments")
+    r'comments', views.CommentsViewSet, basename="all comments")
 
 
 

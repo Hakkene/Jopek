@@ -22,3 +22,5 @@ classcomponent rce
 
 
 header Authentication    token asdadsadasdadadas
+
+http://127.0.0.1:8000/api/?category1=karcianka&category2=planszowa

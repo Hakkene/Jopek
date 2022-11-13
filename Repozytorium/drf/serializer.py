@@ -50,7 +50,7 @@ class AllProducts(serializers.ModelSerializer):
         )
         
 class CommentSerializer(serializers.ModelSerializer):
-    
+    owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model = Comment
-        fields = ["product","name","body","created_on"]
+        fields = ["id","product","body","created_on","owner"]
