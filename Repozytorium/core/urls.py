@@ -28,6 +28,10 @@ router.register(
     r'users', views.UserViewSet, basename="all users")
 router.register(
     r'comments', views.CommentsViewSet, basename="all comments")
+router.register(
+    r'profile', views.ProfileViewSet, basename="all cprofiles")
+router.register(
+    r'order', views.OrderViewSet, basename="all orders")
 
 
 

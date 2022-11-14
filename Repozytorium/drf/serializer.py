@@ -1,7 +1,7 @@
 #from msilib.schema import Media
 from unicodedata import category
 from rest_framework import serializers
-from inventory.models import Product, Category, Media, Comment
+from inventory.models import Product, Category, Media, Comment, Profile, Order
 from django.contrib.auth.models import User
 from rest_framework.authtoken.views import Token
 
@@ -23,7 +23,7 @@ class MediaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Media
         fields = ["image"]
-
+        
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -32,7 +32,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class AllProducts(serializers.ModelSerializer):
     category = CategorySerializer(many=True)
-    image = MediaSerializer(source="media_product", many=True)   
+    #image = serializers.StringRelatedField(many=True)
+    image = MediaSerializer(read_only=True, many=True)   
     class Meta:
         model = Product
         fields = ( 
@@ -54,3 +55,27 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ["id","product","body","created_on","owner"]
+
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    #profile = ProfileSerializer(read_only=True, many=True)  
+    #owner = ProfileSerializer() 
+    class Meta:
+        model = Order
+        fields = ["id","notes"]
+        
+class ProfileSerializer(serializers.ModelSerializer):
+    username = serializers.ReadOnlyField(source='user.username')
+    userid = serializers.ReadOnlyField(source='user.id')
+   # order = serializers.ReadOnlyField(source='order.product.name')
+    order = OrderSerializer(read_only=True, many=True)  
+    class Meta:
+        model = Profile
+        fields = ( 
+            "id",
+            "username",
+            "userid",
+            "order"
+            
+        )

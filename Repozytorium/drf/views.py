@@ -1,10 +1,11 @@
-from inventory.models import Product, Comment
+from inventory.models import Product, Comment, Profile, Order
 from rest_framework import viewsets, permissions, mixins
-from drf.serializer import AllProducts, UserSerializer, CommentSerializer
+from drf.serializer import AllProducts, UserSerializer, CommentSerializer, ProfileSerializer, OrderSerializer
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.models import User
-from django.db.models import Q
+
+
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
     """
@@ -19,7 +20,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 
         # Write permissions are only allowed to the owner of the snippet.
         return obj.owner == request.user
-
+       
 
 class AllProductsViewSet(viewsets.ModelViewSet):
    
@@ -45,15 +46,28 @@ class AllProductsViewSet(viewsets.ModelViewSet):
 
         return queryset
 
-        
-       
-
+    
 
 #viewsets.GenericViewSet,mixins.CreateModelMixin
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_field = "username"
+
+class ProfileViewSet(viewsets.ModelViewSet):
+    
+    serializer_class = ProfileSerializer   
+    lookup_field = "user__username"
+
+    def get_queryset(self): 
+      return Profile.objects.filter(user=self.request.user) #zwróć obiekty gdzie user w modelu zgadza sie z userem z requesta (wymaga tokenu)
+        
+      
+   
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    
 
 class CommentsViewSet(viewsets.ModelViewSet):
     
