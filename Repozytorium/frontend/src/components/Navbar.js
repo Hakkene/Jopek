@@ -37,14 +37,15 @@ function Navbar() {
 
       <div id='navbarBasicExample' class='navbar-menu'>
         <div class='navbar-start'>
-          <a href='/cart' alt='test' class='navbar-item'>
-            Cart
-          </a>
-
-          <a class='navbar-item'>Documentation</a>
+          <Link to='/cart' class='navbar-item'>
+            Placeholder
+          </Link>
+          <Link to='/profile' class='navbar-item'>
+            Profil
+          </Link>
 
           <div class='navbar-item has-dropdown is-hoverable'>
-            <a class='navbar-link'>More</a>
+            <a class='navbar-link'>Placeholder2</a>
 
             <div class='navbar-dropdown'>
               <a class='navbar-item'>About</a>
@@ -61,7 +62,7 @@ function Navbar() {
             <Link to='/cart'>
               <div class='mr-3'>
                 <Icon path={mdiCart} title='User Profile' size={1.7} />
-              </div>{' '}
+              </div>
             </Link>
 
             <div class='buttons'>

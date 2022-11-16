@@ -7,6 +7,7 @@ import Login from './components/Login'
 import Navbar from './components/Navbar'
 import Register from './components/Register'
 import Cart from './components/Cart'
+import Profile from './components/Profile'
 import { Route, Routes } from 'react-router-dom'
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
     JSON.parse(localStorage.getItem('cartItems')) ?? []
   )
 
+    //obsługuje dodawanie produktów do koszyka
   const addHandler = (product) => {
     const exists = cartItems.find((j) => j.id === product.id)
     if (exists) {
@@ -34,6 +36,7 @@ function App() {
       localStorage.setItem('cartItems', JSON.stringify(newCartItems))
     }
   }
+  //obsługuje usuwanie produktów z koszyka
   const removeHandler = (product) => {
     const exists = cartItems.find((j) => j.id === product.id)
     if (exists.quant === 1) {
@@ -48,7 +51,10 @@ function App() {
       localStorage.setItem('cartItems', JSON.stringify(newCartItems))
     }
   }
+
+  //TODO
   const [loading, setLoading] = useState(false)
+
   //fetchowanie wszystkich produktów
   useEffect(() => {
     setLoading(true)
@@ -59,11 +65,6 @@ function App() {
       .finally(() => setLoading(false))
   }, [])
 
-  /* const found = products.find(obj => {
-        return obj.slug === "mtg";
-      });
-      console.log(found.price)
-      */
 
   return (
     <div className='app'>
@@ -97,6 +98,7 @@ function App() {
             element={<Login token={token} settoken={setToken} />}
           />
           <Route path='register' element={<Register />} />
+          <Route path='profile' element={<Profile />} />
           <Route
             path='cart'
             element={
@@ -106,7 +108,9 @@ function App() {
                 removeHandler={removeHandler}
               />
             }
+            
           />
+          
         </Route>
       </Routes>
     </div>

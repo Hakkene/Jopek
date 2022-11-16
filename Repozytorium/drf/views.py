@@ -1,6 +1,6 @@
-from inventory.models import Product, Comment, Profile, Order
+from inventory.models import Product, Comment, Profile, Order, OrderProduct
 from rest_framework import viewsets, permissions, mixins
-from drf.serializer import AllProducts, UserSerializer, CommentSerializer, ProfileSerializer, OrderSerializer
+from drf.serializer import AllProducts, UserSerializer, CommentSerializer, ProfileSerializer, OrderSerializer, OrderProductSerializer
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.models import User
@@ -55,18 +55,33 @@ class UserViewSet(viewsets.ModelViewSet):
     lookup_field = "username"
 
 class ProfileViewSet(viewsets.ModelViewSet):
-    
+    queryset=Profile.objects.all()
     serializer_class = ProfileSerializer   
     lookup_field = "user__username"
 
+    
+      
+   
     def get_queryset(self): 
-      return Profile.objects.filter(user=self.request.user) #zwróć obiekty gdzie user w modelu zgadza sie z userem z requesta (wymaga tokenu)
+     return Profile.objects.filter(user=self.request.user) #zwróć obiekty gdzie user w modelu zgadza sie z userem z requesta (wymaga tokenu)
         
       
    
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    authentication_class = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    
+    def perform_create(self, serializer):
+        
+        
+        serializer.save(owner=Profile.objects.get(user=self.request.user))
+        
+class OrderProductViewSet(viewsets.ModelViewSet):
+    queryset = OrderProduct.objects.all()
+    serializer_class = OrderProductSerializer
+    
     
 
 class CommentsViewSet(viewsets.ModelViewSet):

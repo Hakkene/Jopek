@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 
 
-from .models import Category, Product, Media, Comment, Profile, Order
+from .models import Category, Product, Media, Comment, Profile, Order, OrderProduct
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -30,4 +30,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id','product']
+    list_display = ['id']
+@admin.register(OrderProduct)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['id']

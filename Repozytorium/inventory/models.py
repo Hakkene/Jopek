@@ -7,7 +7,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
-
+import datetime   
    
 
 
@@ -74,15 +74,25 @@ class Profile(models.Model):
     def __str__(self):
      return self.user.username
 
-class Order(models.Model):
-    product = models.ForeignKey(Product, related_name='order', on_delete=models.PROTECT)   
+class Order(models.Model):  
     owner = models.ForeignKey(Profile, related_name='order', on_delete=models.PROTECT)
-    order_date = models.DateField()
-    notes = models.TextField()
+    order_date = models.DateField(default=datetime.date.today)
+    notes = models.TextField(null=True, blank=True)
     price =models.IntegerField()
     city = models.CharField(max_length=50)
     street = models.CharField(max_length=50)
     zipcode = models.CharField(max_length=6)
+    status = models.CharField(default="Oczekuje na akceptacje",max_length=40)
+
+    def __str__(self):
+     return self.notes
+    
+class OrderProduct(models.Model):
+    id = models.BigAutoField(primary_key = True)
+    order = models.ForeignKey(Order, related_name='OrderProduct', on_delete=models.PROTECT)
+    product = models.ForeignKey(Product, related_name='OrderProduct',on_delete=models.PROTECT)  
+    quantity = models.IntegerField(default=1)
+
     
         
     

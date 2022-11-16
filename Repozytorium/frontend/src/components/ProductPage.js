@@ -24,9 +24,10 @@ function ProductPage(props) {
       })
   }, [loading])
 
-  const loginHandler = () => {
+  const commentHandler = () => {
     setError('')
     setLoading('')
+    
     token
       ? axios
           .post(
@@ -50,6 +51,7 @@ function ProductPage(props) {
             setError(error.response.data.body)
           })
       : setError('You must be logged in')
+      setBody('')
   }
 
   return (
@@ -117,7 +119,7 @@ function ProductPage(props) {
             <nav class='level'>
               <div class='level-left'>
                 <div class='level-item'>
-                  <a class='button is-info' onClick={loginHandler}>
+                  <a class='button is-info' onClick={commentHandler}>
                     Submit
                   </a>
                 </div>

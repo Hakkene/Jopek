@@ -24,3 +24,21 @@ classcomponent rce
 header Authentication    token asdadsadasdadadas
 
 http://127.0.0.1:8000/api/?category1=karcianka&category2=planszowa
+
+
+
+It's important to define a related name in your models, and to use that related name in the serializer relationship:
+
+class Cart(models.Model):
+   name = models.CharField(max_length=500)
+
+class CartItem(models.Model):
+   cart = models.ForeignKey(Cart, related_name='cart_items')
+   items = models.IntegerField()
+Then in your serializer definition you use those exact names:
+
+class CartSerializer(serializers.ModelSerializer):
+    cart_items = CartItemSerializer(read_only=True)
+    class Meta:
+       model = Cart
+       fields = ('name', 'cart_items',)

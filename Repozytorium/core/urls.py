@@ -32,6 +32,8 @@ router.register(
     r'profile', views.ProfileViewSet, basename="all cprofiles")
 router.register(
     r'order', views.OrderViewSet, basename="all orders")
+router.register(
+    r'orderproduct', views.OrderProductViewSet, basename="all orders with products and quant")
 
 
 
