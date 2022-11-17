@@ -14,8 +14,39 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf import settings 
+from django.conf.urls.static import static
+from rest_framework import routers
+from rest_framework.authtoken.views import obtain_auth_token
+from drf import views
+
+router = routers.DefaultRouter()
+router.register(
+    r'api', views.AllProductsViewSet, basename="all products")
+router.register(
+    r'users', views.UserViewSet, basename="all users")
+router.register(
+    r'comments', views.CommentsViewSet, basename="all comments")
+router.register(
+    r'profile', views.ProfileViewSet, basename="all cprofiles")
+router.register(
+    r'order', views.OrderViewSet, basename="all orders")
+router.register(
+    r'orderproduct', views.OrderProductViewSet, basename="all orders with products and quant")
+router.register(
+    r'category', views.CategoryViewSet, basename="all categories")
+router.register(
+    r'rentproduct', views.RentProductViewSet, basename="rent order history")
+router.register(
+    r'rentready', views.RentReadyProducts, basename="tylko dostepne")
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('auth/', obtain_auth_token),
+    path("", include(router.urls)),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
