@@ -1,7 +1,7 @@
 #from msilib.schema import Media
 from unicodedata import category
 from rest_framework import serializers
-from inventory.models import Product, Category, Media, Comment, Profile, Order, OrderProduct
+from inventory.models import Product, Category, Comment, Profile, Order, OrderProduct, RentProduct
 from django.contrib.auth.models import User
 from rest_framework.authtoken.views import Token
 
@@ -19,10 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
         Token.objects.create(user=user)
         return user
     
-class MediaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Media
-        fields = ["image"]
+
         
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,8 +29,6 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class AllProducts(serializers.ModelSerializer):
     category = CategorySerializer(many=True)
-    #image = serializers.StringRelatedField(many=True)
-    image = MediaSerializer(read_only=True, many=True)   
     class Meta:
         model = Product
         fields = ( 
@@ -46,8 +41,9 @@ class AllProducts(serializers.ModelSerializer):
             "stock",
             "is_active",
             "category",
-            "thumbnail",
             "image",
+            "displayrent",
+            "renteduntill"
         )
 
 class Product(serializers.ModelSerializer):
@@ -70,11 +66,6 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class OrderProductSerializer(serializers.ModelSerializer):
-   # username = serializers.ReadOnlyField(source='user.username')
-    #userid = serializers.ReadOnlyField(source='user.id')
-   # order = serializers.ReadOnlyField(source='order.product.name')
-   # order = OrderSerializer(read_only=True, many=True)  
-    #product = serializers.PrimaryKeyRelatedField(read_only=True)
     name = serializers.CharField(source="product.name", read_only=True)
     price = serializers.IntegerField(source="product.price", read_only=True)
     
@@ -87,8 +78,6 @@ class OrderProductSerializer(serializers.ModelSerializer):
             "quantity",
             "name",
             "price"
-
-            
             
         ]
         def to_representation(self, instance):
@@ -97,27 +86,39 @@ class OrderProductSerializer(serializers.ModelSerializer):
             return response
 
 class OrderSerializer(serializers.ModelSerializer):
-    #profile = ProfileSerializer(read_only=True, many=True)  
-    #owner = ProfileSerializer() 
-    #product = Product(many=True) 
-   # product = serializers.ReadOnlyField( many=True) 
+    
     OrderProduct = OrderProductSerializer(read_only=True, many=True)
     class Meta:
         model = Order
         fields = ["id","OrderProduct","order_date", "notes","price","city","street","zipcode","status"]
         
+
+        
+class RentProductSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source="product.name", read_only=True)    
+    renteduntill=serializers.DateField(source="product.renteduntill", read_only=True)
+    class Meta:
+        model = RentProduct
+        fields = [
+            "id",  
+            "product",          
+            "name",
+            "renteduntill",
+            
+        ]
+
 class ProfileSerializer(serializers.ModelSerializer):
     username = serializers.ReadOnlyField(source='user.username')
     userid = serializers.ReadOnlyField(source='user.id')
-   # order = serializers.ReadOnlyField(source='order.product.name')
     order = OrderSerializer(read_only=True, many=True)  
+    RentProduct = RentProductSerializer(read_only=True, many=True)
     class Meta:
         model = Profile
         fields = ( 
             
             "username",
             "userid",
-            "order"
+            "order",
+            "RentProduct"
             
         )
-        

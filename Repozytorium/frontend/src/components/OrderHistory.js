@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-function Profile() {
+function OrderHistory() {
   const [token] = useState(localStorage.getItem('userToken') ?? null)
   const [error, setError] = useState('')
   const [orderlist, setOrderlist] = useState([])
@@ -67,7 +67,7 @@ function Profile() {
   )
 }
 
-export default Profile
+export default OrderHistory
 
 /*
 <article class="media">

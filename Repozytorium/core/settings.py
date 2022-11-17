@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-e7ule(j2h83vqan7un98erux)%oz$mwhyoick9)yd#((6j==u)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -107,18 +107,18 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-   # {
-    #    'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    #},
-   # {
-   #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-   # },
-   # {
-   #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-   # },
-   # {
-   #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-   # },
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
 ]
 
 
@@ -152,6 +152,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 REST_FRAMEWORK = {
     #'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     #'PAGE_SIZE': 100,
+    'DATETIME_FORMAT': "%d.%m.%Y %H:%M",
     'DEFAULT_AUTHENTICATION_CLASSES': (
        'rest_framework.authentication.TokenAuthentication',
    ),     

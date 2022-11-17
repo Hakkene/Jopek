@@ -1,71 +1,73 @@
 import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+function ProductList() {
+  const [products, setProducts] = useState([])
+  const [search, setSearch] =useState('')
 
-function ProductList(props) {
-  /*
-  return (
-    <div className="Product-list">ProductList
-   
-    {products.map(product => {
-         return(
-         <h2>{product.name}</h2>
-              
-                )
-    })}
-    
-    
-    </div>
-  )
-}
-*/
+  const getList = (test) => {
+    setSearch('')
+    console.log(test, '<- test')
+    axios.get('http://127.0.0.1:8000/api/' + test).then((response) => {
+      setProducts(response.data)
+      console.log(response.data)
+    })
+  }
 
+  const allList = () => {
+    axios.get('http://127.0.0.1:8000/api/').then((response) => {
+      setProducts(response.data)
+      console.log(response.data)
+    })
+  }
+  useEffect(() => {
+    allList()
+  }, [])
+
+  console.log(products, "products")
   return (
     <div>
       <div id='app'>
+        
         <section class='main-content columns is-fullheight'>
+          
           <aside class='column is-2 is-fullheight section '>
-            <p class='menu-label'>Navigation</p>
+          <div class="field ">
+  <p class="control is-expanded">
+    <input class="input" type="text" placeholder="Nazwa" value={search} onChange={(e) => setSearch(e.target.value)}/>
+  </p>
+  <p class="control">
+    <button class="button is-info mt-2" onClick={() => {getList('?name='+search)}}>
+      Wyszukaj
+    </button>
+  </p>
+</div>
+            <p class='menu-label'>Kategorie</p>
+            
             <ul class='menu-list'>
               <li>
-                <a href='#' class=''>
-                  <span class='icon'>
-                    <i class='fa fa-home'></i>
-                  </span>{' '}
-                  Home
+                <a  class='' onClick={() => {allList()}}>
+                  Wszystkie
                 </a>
               </li>
               <li>
-                <a href='#' class='is-active'>
-                  <span class='icon'>
-                    <i class='fa fa-table'></i>
-                  </span>{' '}
-                  Links
+                <a  class='' onClick={() => {getList('?category=Planszowe')}}>
+                  Planszowe
                 </a>
-
-                <ul>
-                  <li>
-                    <a href='#'>
-                      <span class='icon is-small'>
-                        <i class='fa fa-link'></i>
-                      </span>{' '}
-                      Link1
-                    </a>
-                  </li>
-                  <li>
-                    <a href='#'>
-                      <span class='icon is-small'>
-                        <i class='fa fa-link'></i>
-                      </span>{' '}
-                      Link2
-                    </a>
-                  </li>
-                </ul>
               </li>
               <li>
-                <a href='#' class=''>
-                  <span class='icon'>
-                    <i class='fa fa-info'></i>
-                  </span>{' '}
-                  About
+                <a  class='' onClick={() => {getList('?category=Karciane')}}>
+                  Karciane
+                </a>
+              </li>
+              <li>
+                <a  class='' onClick={() => {getList('?category=Figurkowe')}}>
+                  Figurkowe
+                </a>
+              </li>
+              <li>
+                <a  class='' onClick={() => {getList('?category=Akcesoria')}}>
+                  Akcesoria
                 </a>
               </li>
             </ul>
@@ -73,8 +75,8 @@ function ProductList(props) {
 
           <div class='container column is-10'>
             <div class='section'>
-              <div class='columns is-multiline is-hovered'>
-                {props.propProducts.map((j) => (
+               <div class='columns is-multiline is-hovered'>
+                {products.map((j) => (
                   <div key={j.id} class='column is-one-third '>
                     <div class='card'>
                       <div class='card-image has-text-centered'>
@@ -86,7 +88,7 @@ function ProductList(props) {
 
                             <div class='card-image'>
                               <figure class='image is-square'>
-                                <img src={j.thumbnail} alt='#' />
+                                <img src={j.image} alt='#' />
                               </figure>
                               <div class='content '>
                                 <p class='title'>cena {j.price} zł</p>

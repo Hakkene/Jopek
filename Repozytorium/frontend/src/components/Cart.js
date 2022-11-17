@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import {flushSync} from 'react-dom';
+
 
 function Cart(props) {
-  const { cartItems, addHandler, removeHandler } = props
+  const { cartItems,setCartItems, addHandler, removeHandler } = props
   const quantPrice = cartItems.reduce((a, c) => a + c.quant * c.price, 0)
 
   //console.log(cartItems)
@@ -15,46 +15,11 @@ function Cart(props) {
   const [street, setStreet] = useState('1')
   const [zipcode, setZipcode] = useState('1')
  
-
-  //TODO POŁĄCZYĆ W BACKENDZIE CREATE
-
-
-
-useEffect(()=> {
-
-
-})
-
-  // const orderproductHandler = () => {
-  //   setError('')
-  //   setLoading('')
-  //   console.log(orderid, "wielki chuj 33")
-  //   token
-  //     ? cartItems.map((j) =>
-  //         axios
-  //           .post(
-  //             'http://localhost:8000/orderproduct/',
-  //             {
-  //               order: orderid,
-  //               product: j.id,
-  //               quantity: j.quant,
-  //             },
-  //             {
-  //               headers: {
-  //                 Authorization: 'Token ' + token,
-  //               },
-  //             }
-  //           )
-  //           .then((response) => console.log(response.data))
-           
-
-  //           .catch((error) => {
-  //             console.log(error.response.data.body)
-  //             setError(error.response.data.body)
-  //           })
-  //       )
-  //     : setError('You must be logged in')
-  // }
+  const clearCart = () => {
+    setCartItems([])
+    localStorage.removeItem('cartItems')
+  }
+ 
 
   const orderHandler = () => {
     setError('')
@@ -94,19 +59,28 @@ useEffect(()=> {
               )
             )
           })
+          .then(()=>{
+            console.log("test")
+            clearCart()
+            alert("Zamówienie zostało złożone")
+          })
+          
           .catch((error) => {
             console.log(error.response.data.body)
             setError(error.response.data.body)
           })
+
       : setError('You must be logged in')
   }
 
 
   return (
     <div class='section'>
+       {cartItems.length === 0 && <div class="title has-text-centered mt-6 ">Koszyk jest <strong>pusty</strong></div>}
+       {cartItems.length !== 0 && <div>
       <div class='column is-half is-offset-one-quarter '>
         <p class='title'>Zawartość koszyka:</p>
-        <div></div>
+        
         {cartItems.map((item) => (
           <div key={item.id} class='columns is-flex is-vcentered box'>
             <div class='column is-narrow'>
@@ -137,13 +111,12 @@ useEffect(()=> {
         ))}
         <div class='box has-text-centered'>
           <strong>
-            {cartItems.length === 0 && <div>koszyk jest pusty</div>} łącznie do
-            zapłacenia: {quantPrice} zł
+            łącznie do zapłacenia: {quantPrice} zł
           </strong>
           <br />
           <button
             onClick={() => {
-              localStorage.removeItem('cartItems')
+              clearCart()
             }}
             class='button is-danger '
           >
@@ -160,6 +133,7 @@ useEffect(()=> {
               class='input'
               type='text'
               placeholder='Wrocław'
+              
               onChange={(e) => setCity(e.target.value)}
             />
           </div>
@@ -172,6 +146,7 @@ useEffect(()=> {
               class='input'
               type='text'
               placeholder='Curie-Skłodowskiej 51/5'
+              
               onChange={(e) => setStreet(e.target.value)}
             />
           </div>
@@ -184,6 +159,7 @@ useEffect(()=> {
               class='input'
               type='text'
               placeholder='50-369'
+             
               onChange={(e) => setZipcode(e.target.value)}
             />
           </div>
@@ -197,13 +173,13 @@ useEffect(()=> {
             <textarea
               class='textarea'
               placeholder='tekst'
+              
               onChange={(e) => setNotes(e.target.value)}
             ></textarea>
           </div>
         </div>
 
         <p>
-          {' '}
           Zamawiając godzisz się na <a>zasady i warunki korzystania</a>
         </p>
 
@@ -212,6 +188,7 @@ useEffect(()=> {
         </button>
         
       </div>
+      </div>}
     </div>
   )
 }

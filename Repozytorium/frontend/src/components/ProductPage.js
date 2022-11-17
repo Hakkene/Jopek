@@ -58,19 +58,19 @@ function ProductPage(props) {
     <section class='section is-small mx-6'>
       <div class='columns is-multiline box'>
         <div class='column is-half'>
-          {fromPlist.image.map((b) => (
-            <div key={b.image}>
+          
+            
               <figure class='image is-rectangle'>
-                <img src={b.image} alt='#' />
+                <img src={fromPlist.image} alt='#' />
               </figure>
-            </div>
-          ))}
+            
+         
         </div>
         <div class='column is-half'>
           <section class='section has-text-centered is-medium'>
             <p class='is-size-2'>Cena: {fromPlist.price} zł</p>
             <p class='is-size-5'>Sztuk na stanie: {fromPlist.stock}</p>
-            <p class='is-size-5'>numer id: {fromPlist.id}</p>
+            
             <button
               onClick={() => addHandler(fromPlist)}
               class='button is-primary'
@@ -85,7 +85,7 @@ function ProductPage(props) {
             </button>
             {cartItems.map((item) => (
               <div>
-                {item.id} oraz quant {item.quant}
+                Sztuk w koszyku: {item.quant}
               </div>
             ))}
             {}
@@ -133,7 +133,7 @@ function ProductPage(props) {
             <div class='media-content'>
               <div class='content'>
                 <p>
-                  <strong>{b.owner}</strong> <small>TODO date</small>
+                  <strong>{b.owner}</strong> <small>{b.created_on}</small>
                   <br />
                   {b.body}
                 </p>

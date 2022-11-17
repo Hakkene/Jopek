@@ -8,20 +8,7 @@ function Login(props) {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
-  /*fetch('http://localhost:8000/auth/',{
-    method:'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body:JSON.stringify({
-        username: "admin",
-        password: "admin"
-    })
-})
-    .then(res=>res.json())
-    .then(json=>console.log(json))
-*/
+ 
 
   const loginHandler = () => {
     setError('')
@@ -49,13 +36,14 @@ function Login(props) {
         <Navigate to='/' state={{ amogus: 'sus' }} replace={true} />
       )}
       <div class='column is-half is-offset-one-quarter'>
-        <p>{props.token}</p>
+        
+        <p>Podaj swoje dane</p>
         <div class='field'>
           <p class='control '>
             <input
               class='input'
               type='name'
-              placeholder='Username'
+              placeholder='Login'
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
@@ -66,7 +54,7 @@ function Login(props) {
             <input
               class='input'
               type='password'
-              placeholder='Password'
+              placeholder='Hasło'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -76,11 +64,11 @@ function Login(props) {
         <div class='field'>
           <p class='control'>
             <button class='button is-success mr-2' onClick={loginHandler}>
-              Login
+              Zaloguj się
             </button>
 
             <Link to={'/register'} state={{ data: 'abc' }}>
-              <button class='button is-info'>Register</button>
+              <button class='button is-info'>Rejestracja</button>
             </Link>
           </p>
         </div>

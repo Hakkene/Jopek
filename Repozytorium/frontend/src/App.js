@@ -7,7 +7,10 @@ import Login from './components/Login'
 import Navbar from './components/Navbar'
 import Register from './components/Register'
 import Cart from './components/Cart'
-import Profile from './components/Profile'
+import OrderHistory from './components/OrderHistory'
+import RentHistory from './components/RentHistory'
+import Rent from './components/Rent'
+
 import { Route, Routes } from 'react-router-dom'
 
 function App() {
@@ -81,7 +84,7 @@ function App() {
 
       <Routes>
         <Route path='/'>
-          <Route index element={<ProductList propProducts={products} />} />
+          <Route index element={<ProductList/>} />
           <Route
             path=':slug'
             element={
@@ -98,7 +101,7 @@ function App() {
             element={<Login token={token} settoken={setToken} />}
           />
           <Route path='register' element={<Register />} />
-          <Route path='profile' element={<Profile />} />
+          <Route path='orderhistory' element={<OrderHistory />} />
           <Route
             path='cart'
             element={
@@ -106,10 +109,13 @@ function App() {
                 cartItems={cartItems}
                 addHandler={addHandler}
                 removeHandler={removeHandler}
+                setCartItems={setCartItems}
               />
             }
             
           />
+          <Route path='Rent' element={<Rent/>}/>
+          <Route path='renthistory' element={<RentHistory/>}/>
           
         </Route>
       </Routes>

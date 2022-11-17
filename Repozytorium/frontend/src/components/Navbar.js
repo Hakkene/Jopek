@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from '@mdi/react'
-import { mdiCart } from '@mdi/js'
+import { mdiAccount, mdiBasketOutline } from '@mdi/js'
+import logo from './logo.png'
 
 function Navbar() {
   const [token, setToken] = useState(localStorage.getItem('userToken') ?? null)
@@ -14,73 +15,65 @@ function Navbar() {
     <nav class='navbar' role='navigation' aria-label='main navigation'>
       <div class='navbar-brand'>
         <a class='navbar-item' href='/'>
-          <img
-            src='https://i1.sndcdn.com/artworks-Uii8SMJvNPxy8ePA-romBoQ-t500x500.jpg'
-            width='112'
-            height='28'
-            alt='#'
-          />
+          <img src={logo} width='112' height='28' alt='#' />
         </a>
 
-        <a
-          role='button'
-          class='navbar-burger'
-          aria-label='menu'
-          aria-expanded='false'
-          data-target='navbarBasicExample'
-        >
-          <span aria-hidden='true'></span>
-          <span aria-hidden='true'></span>
-          <span aria-hidden='true'></span>
-        </a>
+        
       </div>
 
       <div id='navbarBasicExample' class='navbar-menu'>
         <div class='navbar-start'>
-          <Link to='/cart' class='navbar-item'>
-            Placeholder
+          <Link to='/' class='navbar-item'>
+            Sklep
           </Link>
-          <Link to='/profile' class='navbar-item'>
-            Profil
+          <Link to='/rent' class='navbar-item'>
+            Wypożyczalnia
           </Link>
-
-          <div class='navbar-item has-dropdown is-hoverable'>
-            <a class='navbar-link'>Placeholder2</a>
-
-            <div class='navbar-dropdown'>
-              <a class='navbar-item'>About</a>
-              <a class='navbar-item'>Jobs</a>
-              <a class='navbar-item'>Contact</a>
-              <hr class='navbar-divider' />
-              <a class='navbar-item'>Report an issue</a>
-            </div>
-          </div>
+          
         </div>
+        
 
         <div class='navbar-end'>
           <div class='navbar-item'>
             <Link to='/cart'>
-              <div class='mr-3'>
-                <Icon path={mdiCart} title='User Profile' size={1.7} />
+              <div class='mr-3 mt-1 is-hoverable'>
+                <Icon path={mdiBasketOutline} title='User Profile' size={1.5} />
               </div>
             </Link>
 
-            <div class='buttons'>
-              {token ? (
-                <button class='button is-danger' onClick={logoutHandler}>
-                  Log out
-                </button>
-              ) : (
-                <div>
-                  <a href={'/register'} class='button is-primary'>
-                    <strong>Register</strong>
-                  </a>
-                  <a href={'/login'} class='button is-light'>
-                    Log in
+            {token ? (
+              <div class='navbar-item has-dropdown is-hoverable '>
+                <a class='navbar-link'>
+                  <Icon path={mdiAccount} title='User Profile' size={1.5} />
+                </a>
+
+                <div class='navbar-dropdown is-right'>
+                  <Link to='/orderhistory' class='navbar-item'>
+                    Historia zamówień
+                  </Link>
+                  <Link to='/renthistory' class='navbar-item'>
+                    Aktualne wypożyczenia
+                  </Link>
+                  <a
+                    href='/'
+                    alt='#'
+                    class='navbar-item'
+                    onClick={logoutHandler}
+                  >
+                    Wyloguj się
                   </a>
                 </div>
-              )}
-            </div>
+              </div>
+            ) : (
+              <div>
+                <a href={'/register'} class='button is-primary'>
+                  <strong>Zarejestruj się</strong>
+                </a>
+                <a href={'/login'} class='button is-light'>
+                  Zaloguj się
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>
