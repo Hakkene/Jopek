@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import React, { useState } from 'react'
 import { Navigate, Link } from 'react-router-dom'
 import axios from 'axios'
 
+//logowanie istniejących użytkowników
+
 function Login(props) {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
+  const [username, setUsername] = useState('') //do przesyłania loginu z pola tekstowego do api i czyszczenia owego pola po kliknieciu przycisku
+  const [password, setPassword] = useState('') ////do przesyłania hasła z pola tekstowego do api i czyszczenia owego pola po kliknieciu przycisku
+  const [error, setError] = useState('') ////error odp z seerwera
 
  
 

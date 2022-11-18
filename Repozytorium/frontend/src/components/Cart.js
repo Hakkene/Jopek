@@ -85,9 +85,9 @@ function Cart(props) {
           <div key={item.id} class='columns is-flex is-vcentered box'>
             <div class='column is-narrow'>
               {
-                <div key={item.thumbnail}>
+                <div key={item.image}>
                   <figure class='image is-96x96'>
-                    <img src={item.thumbnail} alt='#' />
+                    <img src={item.image} alt='#' />
                   </figure>
                 </div>
               }

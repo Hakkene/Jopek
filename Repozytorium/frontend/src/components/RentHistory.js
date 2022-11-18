@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-
+//lista aktualnie wypożyczonych pozycji 
 
 function RentHistory() {
-  const [token] = useState(localStorage.getItem('userToken') ?? null)
-  const [error, setError] = useState('')
-  const [rentlist, setRentList] = useState([])
+  const [token] = useState(localStorage.getItem('userToken') ?? null) 
+  const [rentlist, setRentList] = useState([]) //lista aktualnie wypożyczonych pozycji pobrana z api
   useEffect(() => {
     axios('http://localhost:8000/profile/', {
       headers: {
@@ -18,7 +17,7 @@ function RentHistory() {
       })
       .catch((error) => {
         console.log(error.response.data.body)
-        setError(error.response.data.body)
+        
       })
   }, [])
 
