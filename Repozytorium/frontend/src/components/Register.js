@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
-import { Navigate, Link } from 'react-router-dom'
+import React, { useState} from 'react'
 import axios from 'axios'
 
 
+//rejestracja nowych użytkowników
+
 function Register() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [error1, setError1] = useState('')
-  const [error2, setError2] = useState('')
+  const [username, setUsername] = useState('') //do przesyłania loginu z pola tekstowego do api i czyszczenia owego pola po kliknieciu przycisku
+  const [password, setPassword] = useState('') //do przesyłania hasła z pola tekstowego do api i czyszczenia owego pola po kliknieciu przycisku
+  const [error1, setError1] = useState('') //error dot pola loginu
+  const [error2, setError2] = useState('') //error dot pola hasła
 
   
 
@@ -79,14 +79,3 @@ function Register() {
 }
 
 export default Register
-
-//<Navigate to='/' state={{ amogus: 'sus' }} replace={true} />
-
-
-// headers: {
-//   'content-type': 'multipart/form-data'
-// },
-// body:{
-//   username: "user1",
-//   password: "user1",
-// }

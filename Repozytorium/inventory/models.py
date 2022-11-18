@@ -39,7 +39,7 @@ class Product(models.Model):
     displayrent = models.BooleanField(default=False) ##czy pokazywać jako opcja w wypożyczalni
     renteduntill = models.DateField(null=True, blank=True)
 
-
+    
     
     
     def __str__(self):
@@ -86,6 +86,7 @@ class Order(models.Model):
     zipcode = models.CharField(max_length=6)
     status = models.CharField(default="Oczekuje na akceptacje",max_length=40)
    
+  
 
     def __str__(self):
      return self.notes

@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from '@mdi/react'
 import { mdiAccount, mdiBasketOutline } from '@mdi/js'
 import logo from './logo.png'
 
+//poziomy navbar na górze ekranu
+
 function Navbar() {
   const [token, setToken] = useState(localStorage.getItem('userToken') ?? null)
-  const logoutHandler = () => {
+  const logoutHandler = () => {  //kliknięcie wyloguj -> czyszczenie tokenu z pamięci
     setToken('')
     localStorage.clear()
   }
@@ -80,10 +82,7 @@ function Navbar() {
     </nav>
   )
 
-  //<a class="button is-danger" href="/login">
-  //logout
-  //</a>
-  //<Link to={"/"+j.slug} state={{ data: j }}>
+
 }
 
 export default Navbar

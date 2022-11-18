@@ -4,7 +4,7 @@ from drf.serializer import AllProducts, UserSerializer, CommentSerializer,RentPr
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.models import User
-
+from rest_framework.pagination import PageNumberPagination
 
 
 class ReadOnly(permissions.BasePermission):
@@ -12,10 +12,15 @@ class ReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
            return request.method in permissions.SAFE_METHODS
        
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 30
+    
+
 
 class AllProductsViewSet(viewsets.ModelViewSet):
    
     serializer_class = AllProducts
+    pagination_class = StandardResultsSetPagination
     authentication_class = (TokenAuthentication,)
     permission_classes = [ReadOnly]
     lookup_field = "slug"
@@ -25,7 +30,7 @@ class AllProductsViewSet(viewsets.ModelViewSet):
         Optionally restricts the returned purchases to a given user,
         by filtering against a `product` query parameter in the URL.
         """
-        queryset = Product.objects.all()
+        queryset = Product.objects.all().order_by('id')
         category = self.request.query_params.get('category') 
         rent = self.request.query_params.get('active')
         name = self.request.query_params.get('name')       
@@ -44,7 +49,7 @@ class RentReadyProducts(viewsets.ModelViewSet):
     http_method_names = ['get','head']
     def get_queryset(self):
        
-        queryset = Product.objects.all()
+        queryset = Product.objects.all().order_by('id')
         queryset = queryset.filter(displayrent=True).filter(renteduntill=None)
         return queryset
     
@@ -57,7 +62,7 @@ class UserViewSet(viewsets.ModelViewSet):
    ## http_method_names = ['post', 'head']
 
 class ProfileViewSet(viewsets.ModelViewSet):
-    queryset=Profile.objects.all()
+    queryset=Profile.objects.all().order_by('id')
     serializer_class = ProfileSerializer   
     lookup_field = "user__username"
 
@@ -68,7 +73,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
       
    
 class OrderViewSet(viewsets.ModelViewSet):
-    queryset = Order.objects.all()
+    queryset = Order.objects.all().order_by('id')
     serializer_class = OrderSerializer
     authentication_class = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -79,13 +84,13 @@ class OrderViewSet(viewsets.ModelViewSet):
         serializer.save(owner=Profile.objects.get(user=self.request.user))
         
 class OrderProductViewSet(viewsets.ModelViewSet):
-    queryset = OrderProduct.objects.all()
+    queryset = OrderProduct.objects.all().order_by('id')
     serializer_class = OrderProductSerializer
 
   
     
 class CategoryViewSet(viewsets.ModelViewSet):
-    queryset=Category.objects.all()
+    queryset=Category.objects.all().order_by('id')
     serializer_class = CategorySerializer
 
 class CommentsViewSet(viewsets.ModelViewSet):
@@ -103,7 +108,7 @@ class CommentsViewSet(viewsets.ModelViewSet):
         Optionally restricts the returned purchases to a given user,
         by filtering against a `product` query parameter in the URL.
         """
-        queryset = Comment.objects.all()
+        queryset = Comment.objects.all().order_by('-id')
         product = self.request.query_params.get('product') 
         owner = self.request.query_params.get('owner') 
         if product is not None: ##do zwracania komentarzy napisanych pod danym produktem
@@ -114,7 +119,7 @@ class CommentsViewSet(viewsets.ModelViewSet):
 
 
 class RentProductViewSet(viewsets.ModelViewSet):
-    queryset = RentProduct.objects.all()
+    queryset = RentProduct.objects.all().order_by('id')
     serializer_class = RentProductSerializer
     authentication_class = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]

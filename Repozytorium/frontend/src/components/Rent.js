@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-
+import { Link } from 'react-router-dom'
 
 function Rent() {
 
@@ -14,8 +14,7 @@ function rent(id)  {
 axios.post(    
     "http://127.0.0.1:8000/rentproduct/",
     {
-      product: id
-      
+      product: id      
     },
     {
       headers: {
@@ -34,7 +33,7 @@ axios.post(
 
 useEffect( () => {
     axios.get('http://127.0.0.1:8000/api/?active=True').then((response) => {
-      setProducts(response.data)
+      setProducts(response.data.results)
       console.log(response.data)
     })
   }, [loading] )
@@ -48,21 +47,21 @@ useEffect( () => {
         <div class="column is-three-fifths is-offset-one-fifth">
             {products.length === 0 && <h1 class="title has-text-centered">Przepraszamy, obecnie wszystkie pozycje są wypożyczone</h1>}
         {products.map((b) => (
-         <div key={b.id} class='columns is-flex is-vcentered box'>
+         <div  key={b.id} class='columns is-flex is-vcentered box mx-3'>
          <div class='column is-narrow'>
            {
-             <div key={b.thumbnail}>
+             <div key={b.image}>
                <figure class='image is-96x96'>
-                 <img src={b.thumbnail} alt='#' />
+                 <img src={b.image} alt='#' />
                </figure>
              </div>
            }
          </div>
 
-         <div class='column '>{b.name}</div>
-         <div class='column has-text-right'>
-           
-         </div>
+         <div  class='column '>
+         <Link to={"/"+b.slug}> {b.name} </Link>
+          </div>
+         
 
          <button class='button is-primary' onClick={() => rent(b.id)}>
            Wypożycz

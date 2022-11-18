@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import 'bulma/css/bulma.css'
-//import './App.css';
+import './App.css';
 import ProductList from './components/ProductList'
 import ProductPage from './components/ProductPage'
 import Login from './components/Login'
@@ -10,13 +10,11 @@ import Cart from './components/Cart'
 import OrderHistory from './components/OrderHistory'
 import RentHistory from './components/RentHistory'
 import Rent from './components/Rent'
-
 import { Route, Routes } from 'react-router-dom'
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem('userToken') ?? null)
-  const [products, setProducts] = useState([])
-  const [cartItems, setCartItems] = useState(
+  const [token, setToken] = useState(localStorage.getItem('userToken') ?? null) //token do autoryzacji z backendem
+  const [cartItems, setCartItems] = useState(     //produkty w koszyku
     JSON.parse(localStorage.getItem('cartItems')) ?? []
   )
 
@@ -55,28 +53,12 @@ function App() {
     }
   }
 
-  //TODO
-  const [loading, setLoading] = useState(false)
-
-  //fetchowanie wszystkich produktów
-  useEffect(() => {
-    setLoading(true)
-    fetch('http://localhost:8000/api/', { method: 'GET' })
-      .then((resp) => resp.json())
-      .then((resp) => setProducts(resp))
-      .catch((error) => console.log(error))
-      .finally(() => setLoading(false))
-  }, [])
-
 
   return (
     <div className='app'>
       {token ? (
         <Navbar
-          token={token}
-          settoken={setToken}
-          cartItems={cartItems}
-          key={Date.now()}
+       key={Date.now()}
         />
       ) : (
         <Navbar token={null} settoken={setToken} />
@@ -89,7 +71,7 @@ function App() {
             path=':slug'
             element={
               <ProductPage
-                propProducts={products}
+               
                 cartItems={cartItems}
                 addHandler={addHandler}
                 removeHandler={removeHandler}
