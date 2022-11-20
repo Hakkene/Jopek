@@ -34,11 +34,11 @@ function Login(props) {
   return (
     <section class='section is-large'>
       {props.token && (
-        <Navigate to='/' state={{ amogus: 'sus' }} replace={true} />
+        <Navigate to='/' replace={true} />
       )}
       <div class='column is-half is-offset-one-quarter'>
         
-        <p>Podaj swoje dane</p>
+        <p>Podaj swoje dane logowania</p>
         <div class='field'>
           <p class='control '>
             <input

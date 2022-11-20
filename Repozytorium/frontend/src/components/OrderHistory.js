@@ -35,7 +35,7 @@ function OrderHistory() {
                 <div class='column has-text-centered'>
                   <div>
                     <h2 class='subtitle'>
-                      Numer zamówienia: <strong>{b.id}</strong> <br />
+                      Numer id zamówienia: <strong>{b.id}</strong> <br />
                       <small>
                         złożono {b.order_date}
                         <br />

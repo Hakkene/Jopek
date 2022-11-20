@@ -7,6 +7,9 @@ function Rent() {
 const [products, setProducts] = useState([])
 const [token] = useState(localStorage.getItem('userToken') ?? null)
 const [loading, setLoading] = useState("False")
+const [page, setPage] = useState(1) //do paginacji, jaką strone aktualnie wyświetlać
+const [totalPages, setTotalPages] = useState('') //do paginacji, ile jest łącznie stron 
+const perPage = 5 //do paginacji, ile produktów na strone zwraca api
 
 
 function rent(id)  {
@@ -26,16 +29,27 @@ axios.post(
   }).then(()=>{
     alert("Wypożyczono")
     setLoading("True")
-  })
-  
+  })  
  
 }
 
+
+const allList = (button) => {
+  //ściągnij wszystkie produkty
+  setPage(button)
+  axios.get('http://127.0.0.1:8000/api/?active=True&page=' + button).then((response) => {
+    setProducts(response.data.results)
+    setTotalPages(response.data.count / perPage)
+    window.scrollTo(0, 0)
+  })
+}
+
 useEffect( () => {
-    axios.get('http://127.0.0.1:8000/api/?active=True').then((response) => {
-      setProducts(response.data.results)
-      console.log(response.data)
-    })
+    // axios.get('http://127.0.0.1:8000/api/?active=True').then((response) => {
+    //   setProducts(response.data.results)
+    //   console.log(response.data)
+    // })
+    allList(1)
   }, [loading] )
 
 
@@ -73,7 +87,11 @@ useEffect( () => {
 
 
 
-
+<           nav class="pagination " role="navigation" aria-label="pagination">
+            {page>1 ? <p class="pagination-previous" onClick={() => {allList(page -1)}}>Poprzednia strona</p>:null}
+            {page<totalPages ? <p class="pagination-next"onClick={() => {allList(page +1)}}>Następna strona</p>:null}
+            <ul class="pagination-list"/>  
+            </nav>
         </div>
 
 

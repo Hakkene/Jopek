@@ -12,7 +12,13 @@ admin admin
 manage.py reset_db
 
 
+py manage.py dumpdata --natural-foreign --natural-primary -e contenttypes -e contenttypes >db.json
 
+docker-compose run web python manage.py migrate
+
+docker compose up
+
+https://github.com/docker/awesome-compose/tree/master/official-documentation-samples/django
 
 npm start
 

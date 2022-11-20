@@ -10,7 +10,7 @@ function ProductList() {
   const [products, setProducts] = useState([]) //produkty pobrane z api
   const [page, setPage] = useState(1) //do paginacji, jaką strone aktualnie wyświetlać
   const [totalPages, setTotalPages] = useState('') //do paginacji, ile jest łącznie stron 
-  const perPage = 30 //do paginacji, ile produktów na strone zwraca api
+  const perPage = 5 //do paginacji, ile produktów na strone zwraca api
   const [search, setSearch] = useState('') //do obsługi pola wyszukiwania
   const [searching, setSearching] = useState(false) //do obsługi przycisków paginacji na dole strony
   const [term, setTerm] = useState('') //do obsługi przycisków paginacji na dole strony
@@ -81,7 +81,7 @@ function ProductList() {
                 <a
                   class=''
                   onClick={() => {
-                    allList()
+                    allList(1)
                   }}
                 >
                   Wszystkie
@@ -165,14 +165,14 @@ function ProductList() {
 
             {searching ? 
             <nav class="pagination " role="navigation" aria-label="pagination">
-            {page>1 ? <p class="pagination-previous" onClick={() => {getList(term, page -1)}}>Previous</p>:null}
-            {page<totalPages ? <p class="pagination-next"onClick={() => {getList(term, page +1)}}>Next page</p>:null}
+            {page>1 ? <p class="pagination-previous" onClick={() => {getList(term, page -1)}}>Poprzednia strona</p>:null}
+            {page<totalPages ? <p class="pagination-next"onClick={() => {getList(term, page +1)}}>Następna strona</p>:null}
             <ul class="pagination-list"/>  
             </nav>
             : 
             <nav class="pagination " role="navigation" aria-label="pagination">
-            {page>1 ? <p class="pagination-previous" onClick={() => {allList(page -1)}}>Previous</p>:null}
-            {page<totalPages ? <p class="pagination-next"onClick={() => {allList(page +1)}}>Next page</p>:null}
+            {page>1 ? <p class="pagination-previous" onClick={() => {allList(page -1)}}>Poprzednia strona</p>:null}
+            {page<totalPages ? <p class="pagination-next"onClick={() => {allList(page +1)}}>Następna strona</p>:null}
             <ul class="pagination-list"/>  
             </nav>
             }
