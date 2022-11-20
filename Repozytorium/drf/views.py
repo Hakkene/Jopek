@@ -1,4 +1,4 @@
-from inventory.models import Product, Comment, Profile, Order, OrderProduct, Category,RentProduct
+from inventory.models import Product, Comment, Profile, Order, OrderProduct, RentProduct
 from rest_framework import viewsets, permissions, mixins
 from drf.serializer import AllProducts, UserSerializer, CommentSerializer,RentProductSerializer ,ProfileSerializer, OrderSerializer, OrderProductSerializer, CategorySerializer
 from rest_framework.response import Response
@@ -17,7 +17,8 @@ class StandardResultsSetPagination(PageNumberPagination):
     
 
 
-class AllProductsViewSet(viewsets.ModelViewSet):
+class AllProductsViewSet(viewsets.ModelViewSet): 
+    ##lista wszystkich produktów /api/
    
     serializer_class = AllProducts
     pagination_class = StandardResultsSetPagination
@@ -45,6 +46,7 @@ class AllProductsViewSet(viewsets.ModelViewSet):
 
 
 class RentReadyProducts(viewsets.ModelViewSet):
+    ##lista produktów które uczestniczą w wypożyczalni i nie są aktualnie wypożyczone /rentready/
     serializer_class = AllProducts
     http_method_names = ['get','head']
     def get_queryset(self):
@@ -56,16 +58,17 @@ class RentReadyProducts(viewsets.ModelViewSet):
 
 
 class UserViewSet(viewsets.ModelViewSet):
+    ##do rejestracji użytkowników /users/
     queryset = User.objects.all()
-    serializer_class = UserSerializer
-    
-   ## http_method_names = ['post', 'head']
+    serializer_class = UserSerializer    
+    http_method_names = ['post', 'head']
 
 class ProfileViewSet(viewsets.ModelViewSet):
+    ##indywidualne informacje dostepne tylko dla zalogowanego użytkownika /profile/
     queryset=Profile.objects.all().order_by('id')
     serializer_class = ProfileSerializer   
     lookup_field = "user__username"
-
+    http_method_names = ['get', 'head']
    
     def get_queryset(self): 
      return Profile.objects.filter(user=self.request.user) #zwróć obiekty gdzie user w modelu zgadza sie z userem z requesta (wymaga tokenu)
@@ -73,28 +76,28 @@ class ProfileViewSet(viewsets.ModelViewSet):
       
    
 class OrderViewSet(viewsets.ModelViewSet):
+    ##dane dot zamówienia
     queryset = Order.objects.all().order_by('id')
     serializer_class = OrderSerializer
     authentication_class = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    http_method_names = ['post', 'head']
     
-    def perform_create(self, serializer):
-        
-        
-        serializer.save(owner=Profile.objects.get(user=self.request.user))
+    def perform_create(self, serializer):     
+          serializer.save(owner=Profile.objects.get(user=self.request.user))
         
 class OrderProductViewSet(viewsets.ModelViewSet):
+    ##powiązane zamówienia i produkty
     queryset = OrderProduct.objects.all().order_by('id')
     serializer_class = OrderProductSerializer
+    authentication_class = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    http_method_names = ['post', 'head']
 
   
     
-class CategoryViewSet(viewsets.ModelViewSet):
-    queryset=Category.objects.all().order_by('id')
-    serializer_class = CategorySerializer
-
 class CommentsViewSet(viewsets.ModelViewSet):
-    
+    ##lista komentarzy
     serializer_class = CommentSerializer
     authentication_class = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -104,25 +107,24 @@ class CommentsViewSet(viewsets.ModelViewSet):
         serializer.save(owner=self.request.user)
     
     def get_queryset(self):
-        """
-        Optionally restricts the returned purchases to a given user,
-        by filtering against a `product` query parameter in the URL.
-        """
+       
         queryset = Comment.objects.all().order_by('-id')
         product = self.request.query_params.get('product') 
         owner = self.request.query_params.get('owner') 
         if product is not None: ##do zwracania komentarzy napisanych pod danym produktem
             queryset = queryset.filter(product=product)
-        if owner is not None: ##do zwracania komentarzy napisanych tylko przez danego
+        if owner is not None: ##do zwracania komentarzy napisanych tylko przez danego użytk
             queryset = queryset.filter(owner__username=owner)
         return queryset
 
 
 class RentProductViewSet(viewsets.ModelViewSet):
+    ##która pozycja wypożyczona przez kogo 
     queryset = RentProduct.objects.all().order_by('id')
     serializer_class = RentProductSerializer
     authentication_class = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    http_method_names = ['post', 'head']
     
     def perform_create(self, serializer):
         

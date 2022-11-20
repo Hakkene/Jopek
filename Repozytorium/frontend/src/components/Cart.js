@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 
 
@@ -7,7 +7,7 @@ function Cart(props) {
   const quantPrice = cartItems.reduce((a, c) => a + c.quant * c.price, 0)
 
   //console.log(cartItems)
-  const [loading, setLoading] = useState('True')
+  
   const [error, setError] = useState('')
   const [token] = useState(localStorage.getItem('userToken') ?? null)
   const [notes, setNotes] = useState('1')
@@ -70,7 +70,7 @@ function Cart(props) {
             setError(error.response.data.body)
           })
 
-      : setError('You must be logged in')
+      : setError('Musisz być zalogowany')
   }
 
 
@@ -186,6 +186,7 @@ function Cart(props) {
         <button onClick={orderHandler} class='button is-info mr-1'>
           Zapłać i złóż zamówienie
         </button>
+        {error ? <p>{error}</p>:null}
         
       </div>
       </div>}
@@ -194,29 +195,3 @@ function Cart(props) {
 }
 
 export default Cart
-
-/*
-
-    axios.post(
-      'http://localhost:8000/orderproduct/',
-      {
-        order: orderid,
-        product: "1",
-        quantity: "1",
-      },
-      {
-        headers: {
-          Authorization: 'Token ' + token,
-        },
-      }
-    ).then((response)=>console.log(response.data))
-    .then(() => {
-      setLoading('False')
-    })
-
-    .catch((error) => {
-      console.log(error.response.data.body)
-      setError(error.response.data.body)
-    })
-
-    */

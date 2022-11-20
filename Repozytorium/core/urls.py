@@ -35,8 +35,6 @@ router.register(
 router.register(
     r'orderproduct', views.OrderProductViewSet, basename="all orders with products and quant")
 router.register(
-    r'category', views.CategoryViewSet, basename="all categories")
-router.register(
     r'rentproduct', views.RentProductViewSet, basename="rent order history")
 router.register(
     r'rentready', views.RentReadyProducts, basename="tylko dostepne")
